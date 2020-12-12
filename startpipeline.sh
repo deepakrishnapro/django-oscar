@@ -6,6 +6,8 @@ echo "START DATETIME is $(date +%s)"
 
 start_time=$(date +%s)
 
+job_id=${TRAVIS_JOB_NUMBER%.*}
+
 template2='{
     "productname" : "oscar-from-travis",
     "productversion" : "1.1",
@@ -15,7 +17,7 @@ template2='{
     "repositoryurl":"https://github.com/deepakrishnapro/django-oscar",
     "url": "'$TRAVIS_JOB_WEB_URL'",
     "commitid": "5123",
-    "jobid": "'$TRAVIS_JOB_NUMBER'",
+    "jobid": "'$job_id'",
     "starttime": '$start_time'
 }'
 
@@ -30,7 +32,7 @@ http_response=$(curl -i \
 statuscode=$(echo "$http_response" |  grep HTTP |  awk '{print $2}')
 
 if [ $statuscode -eq 200 ]; then
-	echo "Server returned: Success"
+    echo "Server returned: Success"
     http_response=(${http_response[@]}) # convert to array
     code=${http_response[-1]} # get last element (last line)
     export PIPELINE_ID=${code%???}
