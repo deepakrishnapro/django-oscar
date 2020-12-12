@@ -11,6 +11,7 @@ matrix:
   fast_finish: true
   include:
     - python: 3.7
+      name: "django-oscar-project-test-travis-ci" 
       env: TOXENV=py37-django30
 
 branches:
