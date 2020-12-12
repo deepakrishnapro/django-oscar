@@ -4,6 +4,8 @@
 
 echo "START DATETIME is $(date +%s)"
 
+start_time=$(date +%s)
+
 template2='{
     "productname" : "oscar",
     "productversion" : "1.1",
