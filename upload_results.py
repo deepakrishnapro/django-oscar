@@ -2,6 +2,7 @@
 
 import xml.etree.ElementTree as ET
 import requests
+import datetime
 import os
 
 URL = 'http://ec2-54-189-234-66.us-west-2.compute.amazonaws.com:8001/'
@@ -84,21 +85,25 @@ def upload_tests(root):
 
         failed_count = int(root.attrib['failures']) + int(root.attrib['errors'])
         suucess_count = int(root.attrib['tests']) - ( failed_count + int(root.attrib['skipped']))
+        
+        starttimestamp = datetime.datetime.strptime(root.attrib['timestamp'], '%Y-%m-%dT%H:%M:%S.%f')
+        starttimestamp = int(starttimestamp.timestamp())
 
         testreport = {
             "pipelineid": pipeline_id,
             "duration": int(float(root.attrib['time'])),
-            "endtime": root.attrib['timestamp'],
+            "endtime": starttimestamp,
             "result": "Success",
             "totaltestcase": int(root.attrib['tests']),
             "testcasepassed": suucess_count,
             "testcasefailed": failed_count,
             "testcaseskipped": int(root.attrib['skipped'])
         }
+        
 
         for child in root:
             suite_id = start_testsuite(child.attrib['classname'], "Deepa Krishna")
-            test_id = start_test(pipeline_id, child.attrib['name'], int(suite_id), root.attrib['timestamp'])
+            test_id = start_test(pipeline_id, child.attrib['name'], int(suite_id), starttimestamp)
             added_finish = False
             for gc in child:
                 finish_test_id = finish_test(int(test_id), 'FAILED', int(float(child.attrib['time'])))
