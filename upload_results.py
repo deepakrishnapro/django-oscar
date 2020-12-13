@@ -13,7 +13,7 @@ def get_environ(name):
         print("Exception occurred while getting environment variable - {} ".format(name))
         exit(0)
 
-pipeline_id=81
+pipeline_id=83
 
 def check_http(result):
     if result.status_code < 200 or result.status_code > 202:
@@ -98,14 +98,14 @@ def upload_tests(root):
 
         for child in root:
             suite_id = start_testsuite(child.attrib['classname'], "Deepa Krishna")
-            test_id = start_test(pipeline_id, child.attrib['name'], suite_id, root.attrib['timestamp'])
+            test_id = start_test(pipeline_id, child.attrib['name'], int(suite_id), root.attrib['timestamp'])
             added_finish = False
             for gc in child:
-                finish_test_id = finish_test(test_id, 'FAILED', int(float(child.attrib['time'])))
+                finish_test_id = finish_test(int(test_id), 'FAILED', int(float(child.attrib['time'])))
                 added_finish = True
                 break
             if not added_finish:
-                finish_test_id = finish_test(test_id, 'SUCCESS', int(float(child.attrib['time'])))
+                finish_test_id = finish_test(int(test_id), 'SUCCESS', int(float(child.attrib['time'])))
 
         finish_pipeline(testreport)
 
