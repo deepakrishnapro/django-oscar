@@ -87,7 +87,7 @@ def upload_tests(root):
 
         testreport = {
             "pipelineid": pipeline_id,
-            "duration": int(root.attrib['time']),
+            "duration": int(float(root.attrib['time'])),
             "endtime": root.attrib['timestamp'],
             "result": "Success",
             "totaltestcase": int(root.attrib['tests']),
@@ -101,11 +101,11 @@ def upload_tests(root):
             test_id = start_test(pipeline_id, child.attrib['name'], suite_id, root.attrib['timestamp'])
             added_finish = False
             for gc in child:
-                finish_test_id = finish_test(test_id, 'FAILED', child.attrib['time'])
+                finish_test_id = finish_test(test_id, 'FAILED', int(float(child.attrib['time'])))
                 added_finish = True
                 break
             if not added_finish:
-                finish_test_id = finish_test(test_id, 'SUCCESS', child.attrib['time'])
+                finish_test_id = finish_test(test_id, 'SUCCESS', int(float(child.attrib['time'])))
 
         finish_pipeline(testreport)
 
