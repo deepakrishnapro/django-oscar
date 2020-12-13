@@ -13,7 +13,7 @@ def get_environ(name):
         print("Exception occurred while getting environment variable - {} ".format(name))
         exit(0)
 
-pipeline_id= get_environ('PIPELINE_ID')
+pipeline_id=80
 
 def check_http(result):
     if result.status_code < 200 or result.status_code > 202:
