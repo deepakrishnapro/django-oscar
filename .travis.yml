@@ -40,7 +40,7 @@ cache:
 
 
 install:
-  - pip install tox codecov
+  - pip install tox codecov requests
 
 
 script:
