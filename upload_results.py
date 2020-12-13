@@ -13,7 +13,7 @@ def get_environ(name):
         print("Exception occurred while getting environment variable - {} ".format(name))
         exit(0)
 
-pipeline_id=80
+pipeline_id=81
 
 def check_http(result):
     if result.status_code < 200 or result.status_code > 202:
@@ -110,7 +110,7 @@ def upload_tests(root):
         finish_pipeline(testreport)
 
     except Exception as exception:
-        print("Exception occured in upload test results : {}".format(e))
+        print("Exception occured in upload test results : {}".format(exception))
 
 
 def main():
