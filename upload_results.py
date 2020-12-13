@@ -82,18 +82,18 @@ def finish_pipeline(finish_pipeline_data):
 def upload_tests(root):
     try:
 
-        failed_count = root.attrib['failures'] + root.attrib['errors']
-        suucess_count = root.attrib['tests'] - ( failed_count + root.attrib['skipped'])
+        failed_count = int(root.attrib['failures']) + int(root.attrib['errors'])
+        suucess_count = int(root.attrib['tests']) - ( failed_count + int(root.attrib['skipped']))
 
         testreport = {
             "pipelineid": pipeline_id,
-            "duration": root.attrib['time'],
+            "duration": int(root.attrib['time']),
             "endtime": root.attrib['timestamp'],
             "result": "Success",
-            "totaltestcase": root.attrib['tests'],
+            "totaltestcase": int(root.attrib['tests']),
             "testcasepassed": suucess_count,
             "testcasefailed": failed_count,
-            "testcaseskipped": root.attrib['skipped']
+            "testcaseskipped": int(root.attrib['skipped'])
         }
 
         for child in root:
